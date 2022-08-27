@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product, Review
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-from .forms import ProductForm
+from .forms import ProductForm, ReviewForm
 
 
 # Create your views here.
@@ -87,8 +87,55 @@ class ReviewsListView(ListView):
 
 
 class AddReview(TemplateView):
-    pass
+    template_name = 'add_review.html'
+    form = ReviewForm
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['my_form'] = self.form()
+        return context
+    def post(self, request, *args, **kwargs):
+        form = self.form(request.POST, request.FILES)
+        print(form)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return redirect('home')
+        return render(request, 'add_review.html', {'my_form': form})
+
 
 class UpdateReview(TemplateView):
-    pass
+    template_name = "add_review.html"
+    form = ReviewForm
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = Review.objects.get(pk=context['pk'])
+        context['my_form'] = self.form(
+            initial={'author': obj.author, 'product': obj.product, 'text': obj.text,
+                     'rating': obj.rating})
+        return context
+    def post(self, request, *args, **kwargs):
+        form = self.form(request.POST,  request.FILES)
+        if form.is_valid():
+            obj = Review.objects.get(pk=kwargs['pk'])
+            obj.author = form.cleaned_data['author']
+            obj.product = form.cleaned_data['product']
+            obj.text = form.cleaned_data['text']
+            obj.rating = form.cleaned_data['rating']
+            obj.save()
+            return redirect('home')
+        return render(request, 'add_review.html', {'my_form': form})
 
+
+class DeleteReview(TemplateView):
+    template_name = 'delete_review.html'
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = Review.objects.get(pk=context['pk'])
+        context['review'] = obj
+        return context
+    def post(self, request, *args, **kwargs):
+        obj = Review.objects.get(pk=kwargs['pk'])
+        if obj:
+            obj.delete()
+            return redirect('home')
+        return render(request, 'delete_review.html', {'task': obj})
