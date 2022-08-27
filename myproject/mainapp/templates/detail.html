@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<h2> {{product}} </h2>
+
+{{product.category}}
+
+<div>
+   {{product.description}}
+
+</div>
+<a href="{% url 'update' product.id %}">Update</a>
+<a href="{% url 'delete' product.id %}">Delete</a>
+
+</body>
+</html>

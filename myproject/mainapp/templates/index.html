@@ -5,9 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+<div>
+    <a href="{% url 'add' %}">Add Product</a>
+</div>
 {% for product in products%}
 <div>
-    {{product}}
+  <a href="{% url 'detail' product.id %}">{{product}} </a>
 </div>
 
 {% endfor%}

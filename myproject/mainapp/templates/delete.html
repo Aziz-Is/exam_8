@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+
+<h1>
+    Are you sure?
+</h1>
+<p>{{task.summary}}</p>
+
+    <input type="submit" value="Yes">
+    <a href="{% url 'home'%}">
+        <button type="button">No</button>
+    </a>
+</form>
+</body>
+</html>
