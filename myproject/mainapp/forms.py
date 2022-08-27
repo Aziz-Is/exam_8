@@ -37,4 +37,4 @@ class RegisterForm(forms.ModelForm):
         return user
     class Meta:
         model = User
-        fields = ['username', 'password', 'password_confirm', 'first_name', 'last_name', 'email']
+        exclude = []
