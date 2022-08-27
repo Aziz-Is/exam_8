@@ -13,6 +13,14 @@
 {{product.category}}
 
 <img src="{% static product.image %}" alt="Product" width="500" height="600">
+<div>
+    <h4> Reviews: </h4>
+    <div>
+        {% for r in reviews%}
+        {{r}}
+        {% endfor %}
+    </div>
+</div>
 
 <div>
    {{product.description}}
