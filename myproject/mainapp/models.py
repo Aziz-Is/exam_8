@@ -13,7 +13,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     category = models.CharField(max_length=20, blank=False, null=False, choices=category_choices, default='clothes')
     description = models.TextField(blank=True, max_length=1000)
-    image = models.ImageField(blank=False, upload_to='images/')
+    image = models.ImageField(blank=False, upload_to='images/', default='images/koaf.jpg')
 
     def __str__(self):
         return self.name

@@ -19,6 +19,7 @@ class ProductView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['product'] = Product.objects.get(pk=context['pk'])
+        context['reviews'] = Review.objects.filter(product_id=context['pk'])
         print(context)
         return context
 
@@ -76,3 +77,18 @@ class DeleteView(TemplateView):
             obj.delete()
             return redirect('home')
         return render (request,'delete.html', {'task':obj})
+
+
+# path(xxx/<int:pk>/)
+class ReviewsListView(ListView):
+    model = Review
+    template_name = "detail.html"
+    context_object_name = "reviews"
+
+
+class AddReview(TemplateView):
+    pass
+
+class UpdateReview(TemplateView):
+    pass
+
